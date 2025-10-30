@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const API_AUTENTICACION = "http://34.56.85.127/test-email";
 
     let userEmail = "";
+    let usuario = {};
     let generatedToken = ""; // se simula el token que envía la API
 
     // 1️⃣ Paso 1: Verificar si el correo existe
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             // Buscar si el correo existe en la lista
-            const usuario = data.data.find(u => u.email === userEmail);
+            usuario = data.data.find(u => u.email === userEmail);
 
             if (!usuario) {
                 alert("El correo no está registrado. Verifica tu correo o regístrate.");
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const sendToken = await fetch(API_AUTENTICACION, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: userEmail })
+                body: JSON.stringify({ email: userEmail, nombre: usuario.nombre_completo })
             });
 
             if (!sendToken.ok) throw new Error("Error al enviar el token al correo.");
@@ -47,9 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
             alert(`Se ha enviado un token a tu correo (${userEmail}).`);
             generatedToken = generarToken(); // Simulamos el token localmente
 
-            // Mostrar el paso 2
-            emailStep.style.display = "none";
+            // Mostrar campo de token y botón de verificación
             tokenStep.style.display = "block";
+            btnVerifyToken.style.display = "block";
+
+            // Ocultar paso de correo y su botón
+            emailStep.style.display = "none";
+            btnVerifyEmail.style.display = "none";
 
         } catch (error) {
             console.error("Error al verificar el correo:", error);

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/recomendaciones.css">
     <link rel="stylesheet" href="css/responsive.css">
-
+    <link rel="shortcut icon" href="imagen/Gemini_Generated_Image_2mdhva2mdhva2mdh-modified (1).png" type="image/png">
 </head>
 
 <body>
@@ -45,6 +45,7 @@
                     </a>
                 </div>
                 <p id="usuario-nombre"></p>
+                <button id="cerrar-sesion">Cerrar sesión</button>
             </div>
         </div>
     </header>
@@ -200,6 +201,13 @@
             } else {
                 usuarioTexto.textContent = "Bienvenido, visitante";
             }
+        });
+
+        // Cerrar sesión
+        const btnCerrarSesion = document.getElementById("cerrar-sesion");
+        btnCerrarSesion.addEventListener("click", () => {
+            localStorage.removeItem("usuario");
+            window.location.href = "index.html";
         });
     </script>
 

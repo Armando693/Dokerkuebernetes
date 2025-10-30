@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesión</title>
     <link rel="stylesheet" href="css/loggin.css">
+    <link rel="shortcut icon" href="imagen/Gemini_Generated_Image_2mdhva2mdhva2mdh-modified (1).png" type="image/png">
 </head>
 
 <body>
@@ -18,23 +19,22 @@
                 <ion-icon name="mail-outline"></ion-icon>
                 <input type="email" id="email" required>
                 <label>Correo electrónico</label>
-                <button type="button" id="verify-email">Verificar correo</button>
             </div>
+            <button type="button" id="verify-email">Verificar correo</button>
 
             <!-- Paso 2: ingresar token (oculto al inicio) -->
             <div class="inputbox" id="token-step" style="display: none;">
                 <ion-icon name="key-outline"></ion-icon>
                 <input type="text" id="token" maxlength="8" required>
                 <label>Token de verificación</label>
-                <button type="button" id="verify-token">Iniciar sesión</button>
             </div>
+            <button type="button" id="verify-token" style="display: none;">Iniciar sesión</button>
         </form>
-
-
     </section>
 
-    <!-- <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" type="module"></script> -->
-    <script src="js/login.js"></script>
-</body> 
+    <!-- Íconos de Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
+    <script src="js/login.js"></script>
+</body>
 </html>
