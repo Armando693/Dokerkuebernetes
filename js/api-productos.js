@@ -60,19 +60,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             card.innerHTML = `
                 <div class="producto-imagen">
-                    <img src="${prod.imagen || 'https://via.placeholder.com/200x200?text=Sin+Imagen'}" alt="${prod.nombre}">
+                    <img src="${prod.imagen_url || 'https://via.placeholder.com/200x200?text=Sin+Imagen'}" alt="${prod.nombre}">
                 </div>
                 <div class="producto-info">
                     <h3 class="producto-nombre">${prod.nombre}</h3>
                     <p class="producto-marca">${prod.marca}</p>
                     <p class="producto-sku">SKU: ${prod.sku}</p>
-                    <p class="producto-precio">$${prod.precio_venta.toFixed(2)}</p>
+                    <p class="producto-precio">${prod.precio_venta.toFixed(2)}</p>
                     <p class="producto-stock">Stock: ${prod.stock}</p>
                     <button class="add-to-cart"
                         data-id="${prod.id}"
                         data-product="${prod.nombre}"
                         data-price="${prod.precio_venta}"
-                        data-image="${prod.imagen || 'https://via.placeholder.com/250x200?text=Sin+Imagen'}">
+                        data-image="${prod.imagen_url || 'https://via.placeholder.com/250x200?text=Sin+Imagen'}">
                         Añadir al Carrito
                     </button>
                 </div>

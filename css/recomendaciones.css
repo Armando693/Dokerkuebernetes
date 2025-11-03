@@ -2,7 +2,7 @@
 .recomendaciones-hero {
     background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
     color: white;
-    padding: 80px 0;
+    padding: 40px 0;
     text-align: center;
     margin-top: 50px;
 }
@@ -32,118 +32,35 @@ section {
     scroll-margin-top: 80px;
 }
 
-/* Selector de Vehículo */
-.vehicle-selector {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    margin-bottom: 40px;
-    box-shadow: var(--shadow);
-}
-
-.vehicle-selector h3 {
-    color: var(--primary);
-    margin-bottom: 25px;
-    text-align: center;
-    font-size: 1.5rem;
-}
-
-.selector-form {
+.recomendaciones-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    align-items: end;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
 }
 
-.form-group {
+.recomendacion {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-}
-
-.form-group label {
-    color: var(--primary);
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.form-group select {
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
+    align-items: center;
+    padding: 15px;
     transition: var(--transition);
-    background: white;
 }
 
-.form-group select:focus {
-    outline: none;
-    border-color: var(--accent);
-}
-
-.form-group select:disabled {
-    background: #f8f9fa;
-    color: var(--gray);
-    cursor: not-allowed;
+.recomendacion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 #buscar-recomendaciones {
     height: fit-content;
 }
 
-/* Categorías de Recomendaciones */
-.categorias-recomendaciones {
-    margin-bottom: 50px;
-}
-
-.categorias-recomendaciones h3 {
-    color: var(--primary);
-    margin-bottom: 25px;
-    text-align: center;
-    font-size: 1.8rem;
-}
-
-.categoria-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 25px;
-}
-
-.categoria-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-}
-
-.categoria-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-
-.categoria-header {
-    background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
-    color: white;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.categoria-header i {
-    font-size: 1.5rem;
-}
-
-.categoria-header h4 {
-    margin: 0;
-    font-size: 1.3rem;
-}
-
-.categoria-productos {
-    padding: 20px;
-}
-
-.producto-recomendado {
+.recomendacion_cart {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -154,12 +71,12 @@ section {
     transition: var(--transition);
 }
 
-.producto-recomendado:hover {
+.recomendacion_cart:hover {
     border-color: var(--accent);
     background: #f8f9fa;
 }
 
-.producto-image {
+.cart-image {
     width: 60px;
     height: 60px;
     background: var(--light);
@@ -170,23 +87,23 @@ section {
     flex-shrink: 0;
 }
 
-.producto-image img {
+.cart-image img {
     max-width: 100%;
     max-height: 100%;
     border-radius: 6px;
 }
 
-.producto-info {
+.cart-content {
     flex: 1;
 }
 
-.producto-info h5 {
+.cart-content h5 {
     color: var(--primary);
     margin-bottom: 5px;
     font-size: 1rem;
 }
 
-.producto-info p {
+.cart-content p {
     color: var(--gray);
     font-size: 0.85rem;
     margin-bottom: 5px;
@@ -220,119 +137,6 @@ section {
 .btn-add:hover {
     background: #27ae60;
     transform: scale(1.1);
-}
-
-/* Kits Recomendados */
-.kits-recomendados h3 {
-    color: var(--primary);
-    margin-bottom: 25px;
-    text-align: center;
-    font-size: 1.8rem;
-}
-
-.kits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.kit-card {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border: 2px solid transparent;
-    position: relative;
-}
-
-.kit-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    border-color: var(--accent);
-}
-
-.kit-header {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.kit-badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: var(--secondary);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.kit-header h4 {
-    color: var(--primary);
-    margin: 0;
-    font-size: 1.3rem;
-}
-
-.kit-productos ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 20px;
-}
-
-.kit-productos li {
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
-    color: var(--dark);
-    position: relative;
-    padding-left: 20px;
-}
-
-.kit-productos li:before {
-    content: "✓";
-    color: var(--success);
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-}
-
-.kit-productos li:last-child {
-    border-bottom: none;
-}
-
-.kit-precio {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: var(--light);
-    border-radius: 8px;
-}
-
-.precio-original {
-    text-decoration: line-through;
-    color: var(--gray);
-    margin-right: 10px;
-    font-size: 1.1rem;
-}
-
-.precio-original::before {
-    content: "$";
-}
-
-.precio-oferta {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--secondary);
-}
-
-.precio-oferta::before {
-    content: "$";
-}
-
-.btn-kit {
-    width: 100%;
-    text-align: center;
 }
 
 /* Responsive */

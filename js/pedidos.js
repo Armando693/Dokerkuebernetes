@@ -104,6 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 localStorage.removeItem("pedidoTemporal");
                 showModal("Pedido registrado exitosamente ✅ Se ha enviado un correo de confirmación.");
                 contenedor.innerHTML = "<p>Tu pedido fue enviado correctamente.</p>";
+                // 🔄 Recargar la página después de 10 segundos
+                setTimeout(() => {
+                    location.reload();
+                }, 10000);
 
             } catch (error) {
                 console.error("❌ Error al guardar el pedido:", error);
@@ -233,6 +237,131 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             });
         });
+
+
+        // 🔹--- FILTRO DE PEDIDOS (Todos / Pendientes / Entregados) ---
+        const botonesFiltro = document.querySelectorAll(".filter-btn");
+
+        // Guardar los pedidos en memoria para poder filtrarlos
+        let todosLosPedidos = pedidos;
+        const pedidoTempContainer = document.querySelector(".pedido-temp");
+
+        // Función para renderizar los pedidos según filtro
+        function renderPedidos(filtro) {
+            contenedor.innerHTML = ""; // Limpia el contenedor antes de mostrar los filtrados
+
+            // 🔹 Mostrar u ocultar el pedido temporal según el filtro
+            if (pedidoTempContainer) {
+                if (filtro === "Todos") {
+                    contenedor.prepend(pedidoTempContainer);
+                    pedidoTempContainer.style.display = "block";
+                } else {
+                    pedidoTempContainer.style.display = "none";
+                }
+            }
+
+            const pedidosFiltrados = todosLosPedidos.filter(p => {
+                if (filtro === "Pendientes") return p.estado.toLowerCase() === "pendiente";
+                if (filtro === "Entregados") return p.estado.toLowerCase() === "completado";
+                return true; // "Todos"
+            });
+
+            if (pedidosFiltrados.length === 0) {
+                contenedor.innerHTML = `<p>No hay pedidos ${filtro !== "Todos" ? filtro.toLowerCase() : ""} disponibles.</p>`;
+                return;
+            }
+
+            pedidosFiltrados.forEach(pedido => {
+                const card = document.createElement("div");
+                card.classList.add("pedido-card");
+
+                const fechaFormateada = new Date(pedido.fecha).toLocaleString("es-MX", {
+                    dateStyle: "medium",
+                    timeStyle: "short"
+                });
+
+                const detalles = pedido.detalles || [];
+                const detallesHTML = detalles.map(d => `
+            <li>
+                <ul>
+                    <li>${d.autoparte_id ? "Autoparte ID: " + d.autoparte_id : ""}</li>
+                    <li>Cantidad: ${d.cantidad}</li>
+                    <li>Precio unitario: $${d.precio_unitario}</li>
+                    <li>Subtotal: $${d.subtotal}</li>
+                </ul>
+            </li>
+        `).join("");
+
+                // 🟡 Botón para pedidos pendientes
+                let botonEntregadoHTML = "";
+                if (pedido.estado === "pendiente") {
+                    botonEntregadoHTML = `
+                <button class="entregado-btn" data-id="${pedido.id}">
+                    Pedido entregado
+                </button>
+            `;
+                }
+
+                card.innerHTML = `
+            <h3>Pedido #${pedido.id}</h3>
+            <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+            <p><strong>Estado:</strong> <span class="estado">${pedido.estado}</span></p>
+            <p><strong>Total:</strong> $${pedido.total}</p>
+            <details>
+                <summary>Ver detalles</summary>
+                <ul>${detallesHTML}</ul>
+            </details>
+            ${botonEntregadoHTML}
+        `;
+
+                contenedor.appendChild(card);
+            });
+
+            // 🔄 Volver a activar los botones "Pedido entregado" después del renderizado
+            document.querySelectorAll(".entregado-btn").forEach(boton => {
+                boton.addEventListener("click", async () => {
+                    const pedidoId = boton.getAttribute("data-id");
+                    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+                    try {
+                        const respuesta = await fetch(`http://34.135.37.57/api/ventas/${pedidoId}/estado`, {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ estado: "completado" })
+                        });
+
+                        if (!respuesta.ok) throw new Error(`Error al actualizar el pedido: ${respuesta.status}`);
+
+                        showModal(`✅ Pedido #${pedidoId} marcado como completado.`);
+                        boton.parentElement.querySelector(".estado").textContent = "completado";
+                        boton.remove();
+
+                    } catch (error) {
+                        console.error("Error al cambiar el estado del pedido:", error);
+                        showModal("❌ No se pudo actualizar el pedido. Intenta nuevamente.");
+                    }
+                });
+            });
+        }
+
+        // 🔸 Eventos para los botones del filtro
+        botonesFiltro.forEach(boton => {
+            boton.addEventListener("click", () => {
+                // Quitar clase "active" de todos
+                botonesFiltro.forEach(b => b.classList.remove("active"));
+                // Marcar el botón actual como activo
+                boton.classList.add("active");
+
+                // Obtener el texto del botón (Todos / Pendientes / Entregados)
+                const filtro = boton.textContent.trim();
+                renderPedidos(filtro);
+            });
+        });
+
+        // 🔹 Mostrar todos por defecto al cargar
+        renderPedidos("Todos");
+
+
 
     } catch (error) {
         console.error("Error al cargar los pedidos:", error);
